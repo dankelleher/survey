@@ -4,15 +4,17 @@
   "description": "",
   "main": "src/surveyHandlers.js",
   "scripts": {
-    "pretest": "rm -r dist/test",
-    "test": "webpack --config webpack.test.config.js && PGUSER=postgres PGPASSWORD=12345 PGDATABASE=postgres mocha dist/test/**/*.js"
+    "pretest": "rm -r dist/test || TRUE",
+    "test": "webpack --config webpack.test.config.js && PGUSER=postgres PGPASSWORD=12345 PGDATABASE=postgres mocha dist/test/**/*.js",
+    "deploy": "serverless deploy"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "babel-runtime": "^6.22.0",
     "pg": "^6.1.2",
-    "ramda": "^0.23.0"
+    "ramda": "^0.23.0",
+    "serverless": "^1.7.0"
   },
   "devDependencies": {
     "babel-core": "^6.22.1",

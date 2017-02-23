@@ -1,7 +1,12 @@
 const nodeExternals = require('webpack-node-externals');
+const glob_entries = require('webpack-glob-entries');
 
 module.exports = {
-  entry: './src/surveyHandlers.js',
+  entry: glob_entries('./src/**/*Handlers.js'),
+  output: {
+    filename: '[name].js',
+    path: './dist'
+  },
   target: 'node',
   externals: [nodeExternals()],
   module: {

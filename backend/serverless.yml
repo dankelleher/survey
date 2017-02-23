@@ -72,6 +72,20 @@ functions:
               path: survey
               method: POST
               private: true
+  getSurvey:
+      handler: surveyHandlers.get
+      events:
+            - http:
+                path: survey/{id}
+                method: GET
+                private: true
+  createSurveyResponse:
+      handler: surveyResponseHandlers.get
+      events:
+            - http:
+                path: survey/{id}/response
+                method: POST
+                private: true
 
 custom:
   webpackIncludeModules: true # enable auto-packing of external modules

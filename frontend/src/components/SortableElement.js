@@ -29,7 +29,14 @@ export default class SortableElement extends Component {
   }
 
   handleDragEnd() {
+    this.setState({isSelected: false});
     return this.props.dragEnd(this.props.text);
+  }
+
+  handleDragStart() {
+    setTimeout(() => {
+      this.setState({isSelected: true});
+    });
   }
 
   setTargetIndex(index) {
@@ -39,6 +46,7 @@ export default class SortableElement extends Component {
   render() {
     return (
       <div
+        className={this.state.isSelected ? 'hidden' :''}
         onDragEnter={this.handleDragEnter.bind(this)}
         onDragLeave={this.handleDragLeave.bind(this)}
         onDragEnd={this.handleDragEnd.bind(this)}>
@@ -46,7 +54,9 @@ export default class SortableElement extends Component {
         <EmptySlot
           shown={this.state.showEmptySlots}
           select={this.setTargetIndex.bind(this, this.props.slotIndex)}/>
-        <Element>{this.props.text}</Element>
+        <Element
+          onSelect={this.handleDragStart.bind(this)}
+        >{this.props.text}</Element>
         <EmptySlot
           shown={this.state.showEmptySlots}
           select={this.setTargetIndex.bind(this, this.props.slotIndex + 1)}/>

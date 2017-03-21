@@ -1,0 +1,177 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Survey",
+		"_postman_id": "f4aded13-a962-ecdd-45c1-a4dcb89feee5",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "AWS API Gateway + Lambda + incorrect API Key",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 403\"] = responseCode.code === 403;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://w3fegea84b.execute-api.us-east-1.amazonaws.com/dev/survey/67",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "wrong key",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create Survey",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"ID exists\"] = jsonData.id >= 0;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://w3fegea84b.execute-api.us-east-1.amazonaws.com/dev/survey",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "iSZ2H9nI2K3PgcJPOgBcl9m8pdheDa8e5iLAotBP",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\":\"postman test survey\",\n  \"elements\": [\n    \"element 1\",\n    \"element 2\",\n    \"element 3\"\n    ]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Survey",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"",
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Name is returned\"] = jsonData.name === \"postman test survey\";",
+							"tests[\"Elements are returned\"] = jsonData.elements.length === 3;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://w3fegea84b.execute-api.us-east-1.amazonaws.com/dev/survey/67",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "iSZ2H9nI2K3PgcJPOgBcl9m8pdheDa8e5iLAotBP",
+						"description": ""
+					}
+				],
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Create Survey Response",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"ID exists\"] = jsonData.id >= 0;",
+							"",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://w3fegea84b.execute-api.us-east-1.amazonaws.com/dev/survey/67/response",
+				"method": "POST",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "iSZ2H9nI2K3PgcJPOgBcl9m8pdheDa8e5iLAotBP",
+						"description": ""
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"elements\": [\n\t\t\"element 3\",\n\t\t\"element 2\",\n\t\t\"element 1\"\n\t\t]\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Average Survey Response",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"tests[\"Status code is 200\"] = responseCode.code === 200;",
+							"tests[\"Result is array of 3 elements\"] = jsonData.length === 3;"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "https://w3fegea84b.execute-api.us-east-1.amazonaws.com/dev/survey/67/response",
+				"method": "GET",
+				"header": [
+					{
+						"key": "x-api-key",
+						"value": "iSZ2H9nI2K3PgcJPOgBcl9m8pdheDa8e5iLAotBP",
+						"description": ""
+					}
+				],
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

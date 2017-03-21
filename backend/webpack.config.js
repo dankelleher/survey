@@ -4,6 +4,7 @@ const glob_entries = require('webpack-glob-entries');
 module.exports = {
   entry: glob_entries('./src/**/*Handlers.js'),
   output: {
+    libraryTarget: 'commonjs',
     filename: '[name].js',
     path: './dist'
   },

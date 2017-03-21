@@ -7,9 +7,9 @@ export default class Element extends Component {
 
   // Needed for firefox
   handleDragStart(event) {
-    console.log(event)
+    event.dataTransfer.setData('Text', this.props.children);
 
-    event.dataTransfer.setData('Text', this.props.children)
+    this.props.onSelect();
   }
 
   render() {

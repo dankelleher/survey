@@ -1,8 +1,8 @@
 body {
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
-    background: url("/hambg2.jpg") no-repeat center center;
+    font-family: 'Cinzel', sans-serif;
+    background: url("/hambg3.jpg") no-repeat center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -11,16 +11,18 @@ body {
 
 .list {
     width: 420px;
-    margin: 100px auto auto;
+    margin: 40px auto auto;
+    background-color: white;
+    border: black 2px;
 }
 
-.list ol {
+.list ol, .submitbar button {
     list-style-type: none;
     padding: 10px;
     font-size: larger;
 }
 
-.list li {
+.list li, .submitbar button {
     background-color: #0f7786;
     border: solid black 1px;
     color: white;
@@ -35,4 +37,31 @@ body {
     border: dashed black 2px;
     margin-top: 3px;
     margin-bottom: 3px;
+}
+
+.hidden {
+    height: 0;
+    margin: 0 0 0 0;
+    transform:translateX(-9999px);
+}
+
+.titlebar, .subtitlebar {
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 3em;
+}
+
+.titlebar h1 {
+    margin-top: 10px;
+}
+
+.subtitlebar {
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 1.5em;
+}
+
+.submitbar {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
 }

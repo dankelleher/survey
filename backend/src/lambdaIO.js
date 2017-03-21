@@ -6,7 +6,7 @@
 
 export function creationResponse(generatedId) {
   return {
-    statusCode: 200,
+    ...successfulResponse(),
     body: JSON.stringify({
       message: 'Created successfully',
       id: generatedId,
@@ -16,7 +16,7 @@ export function creationResponse(generatedId) {
 
 export function getResponse(entity) {
   return {
-    statusCode: 200,
+    ...successfulResponse(),
     body: JSON.stringify(entity),
   };
 }
@@ -27,4 +27,13 @@ export function throwOnError(err) {
 
 export function parseBody(event) {
   return JSON.parse(event.body);
+}
+
+function successfulResponse() {
+  return {
+    statusCode: 200,
+    headers: {
+      "Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+    },
+  }
 }

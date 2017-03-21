@@ -5,6 +5,30 @@
     "ServerlessDeploymentBucket": {
       "Type": "AWS::S3::Bucket"
     },
+    "CreateSurveyLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/survey-dev-createSurvey"
+      }
+    },
+    "GetSurveyLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/survey-dev-getSurvey"
+      }
+    },
+    "CreateResponseForSurveyLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/survey-dev-createResponseForSurvey"
+      }
+    },
+    "GetAverageSurveyResponseLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/survey-dev-getAverageSurveyResponse"
+      }
+    },
     "IamRoleLambdaExecution": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -60,17 +84,67 @@
             {
               "Effect": "Allow",
               "Action": [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream"
-              ],
-              "Resource": "arn:aws:logs:us-east-1:*:*"
-            },
-            {
-              "Effect": "Allow",
-              "Action": [
+                "logs:CreateLogStream",
                 "logs:PutLogEvents"
               ],
-              "Resource": "arn:aws:logs:us-east-1:*:*"
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    ":",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "CreateSurveyLogGroup",
+                          "Arn"
+                        ]
+                      },
+                      "*"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    ":",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "GetSurveyLogGroup",
+                          "Arn"
+                        ]
+                      },
+                      "*"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    ":",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "CreateResponseForSurveyLogGroup",
+                          "Arn"
+                        ]
+                      },
+                      "*"
+                    ]
+                  ]
+                },
+                {
+                  "Fn::Join": [
+                    ":",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "GetAverageSurveyResponseLogGroup",
+                          "Arn"
+                        ]
+                      },
+                      "*"
+                    ]
+                  ]
+                }
+              ]
             }
           ]
         },
@@ -88,7 +162,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/survey/dev/1487772375016-2017-02-22T14:06:15.016Z/survey.zip"
+          "S3Key": "serverless/survey/dev/1488742690539-2017-03-05T19:38:10.539Z/survey.zip"
         },
         "FunctionName": "survey-dev-createSurvey",
         "Handler": "surveyHandlers.create",
@@ -115,14 +189,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "CreateSurveyLambdaVersionaEuEm0srwpbjHu4dnvoZcTkZOthbuZdqXqcu0AXhWJc": {
+    "CreateSurveyLambdaVersionSKbC5XbMLs3blMaEJBWLKw9eT1iGczQzvcwe07gmo": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateSurveyLambdaFunction"
         },
-        "CodeSha256": "aEuEm0srwpbjHu4dnvoZcTkZOthbuZdqXqcu0AXhWJc="
+        "CodeSha256": "SKb+C5XbMLs3b+lMaEJBWLKw9eT1iGczQzvcwe07gmo="
       }
     },
     "GetSurveyLambdaFunction": {
@@ -132,7 +206,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/survey/dev/1487772375016-2017-02-22T14:06:15.016Z/survey.zip"
+          "S3Key": "serverless/survey/dev/1488742690539-2017-03-05T19:38:10.539Z/survey.zip"
         },
         "FunctionName": "survey-dev-getSurvey",
         "Handler": "surveyHandlers.get",
@@ -159,26 +233,70 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "GetSurveyLambdaVersionaEuEm0srwpbjHu4dnvoZcTkZOthbuZdqXqcu0AXhWJc": {
+    "GetSurveyLambdaVersionSKbC5XbMLs3blMaEJBWLKw9eT1iGczQzvcwe07gmo": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetSurveyLambdaFunction"
         },
-        "CodeSha256": "aEuEm0srwpbjHu4dnvoZcTkZOthbuZdqXqcu0AXhWJc="
+        "CodeSha256": "SKb+C5XbMLs3b+lMaEJBWLKw9eT1iGczQzvcwe07gmo="
       }
     },
-    "CreateSurveyResponseLambdaFunction": {
+    "CreateResponseForSurveyLambdaFunction": {
       "Type": "AWS::Lambda::Function",
       "Properties": {
         "Code": {
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/survey/dev/1487772375016-2017-02-22T14:06:15.016Z/survey.zip"
+          "S3Key": "serverless/survey/dev/1488742690539-2017-03-05T19:38:10.539Z/survey.zip"
         },
-        "FunctionName": "survey-dev-createSurveyResponse",
+        "FunctionName": "survey-dev-createResponseForSurvey",
+        "Handler": "surveyResponseHandlers.create",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs4.3",
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "PGHOST": "survey.cdqh2ydjbp8c.us-east-1.rds.amazonaws.com",
+            "PGUSER": "postgresmaster",
+            "PGPASSWORD": "X6KKbQeVoKBi",
+            "PGDATABASE": "surveydb"
+          }
+        }
+      },
+      "DependsOn": [
+        "IamPolicyLambdaExecution",
+        "IamRoleLambdaExecution"
+      ]
+    },
+    "CreateResponseForSurveyLambdaVersionSKbC5XbMLs3blMaEJBWLKw9eT1iGczQzvcwe07gmo": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "CreateResponseForSurveyLambdaFunction"
+        },
+        "CodeSha256": "SKb+C5XbMLs3b+lMaEJBWLKw9eT1iGczQzvcwe07gmo="
+      }
+    },
+    "GetAverageSurveyResponseLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/survey/dev/1488742690539-2017-03-05T19:38:10.539Z/survey.zip"
+        },
+        "FunctionName": "survey-dev-getAverageSurveyResponse",
         "Handler": "surveyResponseHandlers.get",
         "MemorySize": 1024,
         "Role": {
@@ -203,14 +321,14 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "CreateSurveyResponseLambdaVersionaEuEm0srwpbjHu4dnvoZcTkZOthbuZdqXqcu0AXhWJc": {
+    "GetAverageSurveyResponseLambdaVersionSKbC5XbMLs3blMaEJBWLKw9eT1iGczQzvcwe07gmo": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
-          "Ref": "CreateSurveyResponseLambdaFunction"
+          "Ref": "GetAverageSurveyResponseLambdaFunction"
         },
-        "CodeSha256": "aEuEm0srwpbjHu4dnvoZcTkZOthbuZdqXqcu0AXhWJc="
+        "CodeSha256": "SKb+C5XbMLs3b+lMaEJBWLKw9eT1iGczQzvcwe07gmo="
       }
     },
     "ApiGatewayRestApi": {
@@ -253,6 +371,98 @@
           "Ref": "ApiGatewayResourceSurveyIdVar"
         },
         "PathPart": "response",
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodSurveyIdVarOptions": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Credentials": true
+            },
+            "ResponseModels": {}
+          }
+        ],
+        "RequestParameters": {},
+        "Integration": {
+          "Type": "MOCK",
+          "RequestTemplates": {
+            "application/json": "{statusCode:200}"
+          },
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200",
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET'",
+                "method.response.header.Access-Control-Allow-Credentials": "'false'"
+              },
+              "ResponseTemplates": {
+                "application/json": ""
+              }
+            }
+          ]
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceSurveyIdVar"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        }
+      }
+    },
+    "ApiGatewayMethodSurveyIdVarResponseOptions": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "AuthorizationType": "NONE",
+        "HttpMethod": "OPTIONS",
+        "MethodResponses": [
+          {
+            "StatusCode": "200",
+            "ResponseParameters": {
+              "method.response.header.Access-Control-Allow-Origin": true,
+              "method.response.header.Access-Control-Allow-Headers": true,
+              "method.response.header.Access-Control-Allow-Methods": true,
+              "method.response.header.Access-Control-Allow-Credentials": true
+            },
+            "ResponseModels": {}
+          }
+        ],
+        "RequestParameters": {},
+        "Integration": {
+          "Type": "MOCK",
+          "RequestTemplates": {
+            "application/json": "{statusCode:200}"
+          },
+          "IntegrationResponses": [
+            {
+              "StatusCode": "200",
+              "ResponseParameters": {
+                "method.response.header.Access-Control-Allow-Origin": "'*'",
+                "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+                "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,GET,POST'",
+                "method.response.header.Access-Control-Allow-Credentials": "'false'"
+              },
+              "ResponseTemplates": {
+                "application/json": ""
+              }
+            }
+          ]
+        },
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceSurveyIdVarResponse"
+        },
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         }
@@ -363,7 +573,7 @@
                 ":lambda:path/2015-03-31/functions/",
                 {
                   "Fn::GetAtt": [
-                    "CreateSurveyResponseLambdaFunction",
+                    "CreateResponseForSurveyLambdaFunction",
                     "Arn"
                   ]
                 },
@@ -375,7 +585,46 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1487772375041": {
+    "ApiGatewayMethodSurveyIdVarResponseGet": {
+      "Type": "AWS::ApiGateway::Method",
+      "Properties": {
+        "HttpMethod": "GET",
+        "RequestParameters": {},
+        "ResourceId": {
+          "Ref": "ApiGatewayResourceSurveyIdVarResponse"
+        },
+        "RestApiId": {
+          "Ref": "ApiGatewayRestApi"
+        },
+        "ApiKeyRequired": true,
+        "AuthorizationType": "NONE",
+        "Integration": {
+          "IntegrationHttpMethod": "POST",
+          "Type": "AWS_PROXY",
+          "Uri": {
+            "Fn::Join": [
+              "",
+              [
+                "arn:aws:apigateway:",
+                {
+                  "Ref": "AWS::Region"
+                },
+                ":lambda:path/2015-03-31/functions/",
+                {
+                  "Fn::GetAtt": [
+                    "GetAverageSurveyResponseLambdaFunction",
+                    "Arn"
+                  ]
+                },
+                "/invocations"
+              ]
+            ]
+          }
+        },
+        "MethodResponses": []
+      }
+    },
+    "ApiGatewayDeployment1488742690579": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -386,7 +635,8 @@
       "DependsOn": [
         "ApiGatewayMethodSurveyPost",
         "ApiGatewayMethodSurveyIdVarGet",
-        "ApiGatewayMethodSurveyIdVarResponsePost"
+        "ApiGatewayMethodSurveyIdVarResponsePost",
+        "ApiGatewayMethodSurveyIdVarResponseGet"
       ]
     },
     "ApiGatewayApiKey1": {
@@ -403,7 +653,7 @@
           }
         ]
       },
-      "DependsOn": "ApiGatewayDeployment1487772375041"
+      "DependsOn": "ApiGatewayDeployment1488742690579"
     },
     "CreateSurveyLambdaPermissionApiGateway": {
       "Type": "AWS::Lambda::Permission",
@@ -471,12 +721,45 @@
         }
       }
     },
-    "CreateSurveyResponseLambdaPermissionApiGateway": {
+    "CreateResponseForSurveyLambdaPermissionApiGateway": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "FunctionName": {
           "Fn::GetAtt": [
-            "CreateSurveyResponseLambdaFunction",
+            "CreateResponseForSurveyLambdaFunction",
+            "Arn"
+          ]
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Join": [
+            "",
+            [
+              "arn:aws:execute-api:",
+              {
+                "Ref": "AWS::Region"
+              },
+              ":",
+              {
+                "Ref": "AWS::AccountId"
+              },
+              ":",
+              {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "/*/*"
+            ]
+          ]
+        }
+      }
+    },
+    "GetAverageSurveyResponseLambdaPermissionApiGateway": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "GetAverageSurveyResponseLambdaFunction",
             "Arn"
           ]
         },
@@ -511,49 +794,28 @@
         "Ref": "ServerlessDeploymentBucket"
       }
     },
-    "CreateSurveyLambdaFunctionArn": {
-      "Description": "Lambda function info",
-      "Value": {
-        "Fn::GetAtt": [
-          "CreateSurveyLambdaFunction",
-          "Arn"
-        ]
-      }
-    },
     "CreateSurveyLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateSurveyLambdaVersionaEuEm0srwpbjHu4dnvoZcTkZOthbuZdqXqcu0AXhWJc"
-      }
-    },
-    "GetSurveyLambdaFunctionArn": {
-      "Description": "Lambda function info",
-      "Value": {
-        "Fn::GetAtt": [
-          "GetSurveyLambdaFunction",
-          "Arn"
-        ]
+        "Ref": "CreateSurveyLambdaVersionSKbC5XbMLs3blMaEJBWLKw9eT1iGczQzvcwe07gmo"
       }
     },
     "GetSurveyLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetSurveyLambdaVersionaEuEm0srwpbjHu4dnvoZcTkZOthbuZdqXqcu0AXhWJc"
+        "Ref": "GetSurveyLambdaVersionSKbC5XbMLs3blMaEJBWLKw9eT1iGczQzvcwe07gmo"
       }
     },
-    "CreateSurveyResponseLambdaFunctionArn": {
-      "Description": "Lambda function info",
-      "Value": {
-        "Fn::GetAtt": [
-          "CreateSurveyResponseLambdaFunction",
-          "Arn"
-        ]
-      }
-    },
-    "CreateSurveyResponseLambdaFunctionQualifiedArn": {
+    "CreateResponseForSurveyLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateSurveyResponseLambdaVersionaEuEm0srwpbjHu4dnvoZcTkZOthbuZdqXqcu0AXhWJc"
+        "Ref": "CreateResponseForSurveyLambdaVersionSKbC5XbMLs3blMaEJBWLKw9eT1iGczQzvcwe07gmo"
+      }
+    },
+    "GetAverageSurveyResponseLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "GetAverageSurveyResponseLambdaVersionSKbC5XbMLs3blMaEJBWLKw9eT1iGczQzvcwe07gmo"
       }
     },
     "ServiceEndpoint": {

@@ -17,3 +17,4 @@
 .env
 */npm-debug.log
 /backend/.serverless
+/frontend/build/

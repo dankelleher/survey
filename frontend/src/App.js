@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
-import List from './components/List'
+import {List, SortableList} from './components/List'
 import Submit from './components/Submit'
 import Subtitle from './components/Subtitle'
 import './App.css';
@@ -76,26 +76,6 @@ class App extends Component {
       .then(json => this.setState({data : json.elements }));
   }
 
-  moveElement(elementToMove, newSuccessor) {
-    console.log(elementToMove, newSuccessor);
-    const oldData = this.state.data;
-
-    const elementToMoveIdx = oldData.indexOf(elementToMove);
-
-    let newData = [...oldData.slice(0, elementToMoveIdx), ...oldData.slice(elementToMoveIdx + 1)];
-
-    if (newSuccessor == null) {
-      newData = [...newData, elementToMove];
-      console.log(newData)
-    } else {
-      const insertIndex = newData.indexOf(newSuccessor);
-
-      newData = [...newData.slice(0, insertIndex), elementToMove, ...newData.slice(insertIndex)];
-    }
-
-    this.setState({data : newData });
-  }
-
   submit() {
     this.setState({ submissionStatus: 'SUBMITTING' });
 
@@ -138,16 +118,11 @@ class App extends Component {
       <div>
         <Subtitle submissionStatus={this.state.submissionStatus}/>
         <div className={appClasses}>
-          <List
-            elements={this.state.data}
-            onUpdate={this.moveElement.bind(this)}
-          >{this.state.data}</List>
+          <SortableList>{this.state.data}</SortableList>
           <Submit onClick={this.submit.bind(this)} submissionStatus={this.state.submissionStatus}/>
         </div>
         <div className={resultsClasses}>
-          <List
-            elements={this.state.results}
-          >{this.state.results}</List>
+          <List>{this.state.results}</List>
         </div>
       </div>
     );

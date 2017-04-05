@@ -2,51 +2,53 @@
  * Created by daniel on 14/11/2016.
  */
 import React, { Component } from 'react';
-import SortableElement from './SortableElement';
+import { sortable } from 'react-sortable';
 
-export default class List extends Component {
+import Element from './Element';
 
-  componentWillMount() {
-    this.setState({targetIndex:null})
-  }
+const SortableElement = sortable(Element);
 
-  dragEnd(source) {
-    const target = this.getTarget();
+const listFactory = (ListElement, sorted) => class extends Component {
 
-    if (source === target) return;
+  constructor(props) {
+    super(props);
 
-    this.props.onUpdate(source, target);
-  }
-
-  getTarget() {
-    const targetIndex = this.state.targetIndex;
-
-    if (targetIndex < this.props.children.length) {
-      return this.props.children[targetIndex];
+    this.state = {
+      items: [],
+      draggingIndex: null
     }
-
-    return null;
   }
 
-  setTargetIndex(targetIndex) {
-    this.setState({targetIndex});
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      items: nextProps.children
+    })
   }
 
   render() {
+    const augmentedListElement = (el, idx) => sorted ?
+      <ListElement
+        key={idx}
+        updateState={this.setState.bind(this)}
+        draggingIndex={this.state.draggingIndex}
+        items={this.state.items}
+        sortId={idx}
+        outline="list"
+      >{el}</ListElement>
+      :
+      <ListElement key={idx}>{el}</ListElement>;
+
     return (
       <div className="list">
         <ol>
-          {this.props.children.map((el, idx) => (
-            <SortableElement
-              slotIndex={idx}
-              key={idx}
-              text={el}
-              dragEnd={this.dragEnd.bind(this)}
-              setTargetIndex={this.setTargetIndex.bind(this)}
-            />
-          ))}
+          {this.state.items.map(augmentedListElement)}
         </ol>
       </div>
     )
   }
 }
+
+const List = listFactory(Element);
+const SortableList = listFactory(SortableElement, true);
+
+export {List, SortableList};

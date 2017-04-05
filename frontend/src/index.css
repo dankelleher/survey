@@ -26,6 +26,7 @@ body {
     background-color: #0f7786;
     border: solid black 1px;
     color: white;
+    margin-bottom: 4px;
 }
 
 .empty-slot {
@@ -40,9 +41,10 @@ body {
 }
 
 .hidden {
-    height: 0;
-    margin: 0 0 0 0;
-    transform:translateX(-9999px);
+    display: none;
+    /*height: 0;*/
+    /*margin: 0 0 0 0;*/
+    /*transform:translateX(-9999px);*/
 }
 
 .titlebar, .subtitlebar {
